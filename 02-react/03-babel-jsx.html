@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Intro</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        window.addEventListener('load', onLoad);
+        function onLoad(){
+            var btnRender = document.getElementById('btnRender');
+            btnRender.addEventListener('click', onBtnRenderClick);
+        }
+        var counter = 0;
+        function onBtnRenderClick(){
+            ++counter;
+            var appEle = (
+                <section>
+                    <h1>Welcome to React.js</h1>
+                    <hr/>
+                    <div>
+                        <span>Counter : </span>
+                        <span>{counter}</span>
+                    </div>
+                    <div>
+                        <h3>Introduction</h3>
+                        <p>Aliqua consectetur exercitation in consequat eiusmod culpa laborum deserunt. Incididunt enim ullamco enim do. Eu elit consequat adipisicing quis cillum culpa consectetur voluptate ullamco adipisicing non ex nulla ad. Occaecat deserunt occaecat ut tempor in aliquip velit nostrud sunt deserunt reprehenderit ullamco. Consequat laborum laboris occaecat eu anim veniam excepteur. Enim anim amet cupidatat dolore laboris incididunt adipisicing.</p>
+                        <p>Velit mollit irure non magna minim magna. Anim officia cupidatat ullamco pariatur est aliquip velit sit veniam ullamco elit aliquip sit culpa. Ex fugiat proident non ut nisi eiusmod et est minim non. Voluptate ipsum est non quis ex minim labore adipisicing cillum. Mollit in Lorem nulla voluptate duis nisi.</p>
+                    </div>
+                    <div>
+                        <h3>Advantages</h3>
+                        <ol>
+                            <li>Simplicity</li>
+                            <li>Declarative</li>
+                        </ol>
+                    </div>
+                </section>
+            );
+            console.log(appEle);
+            ReactDOM.render(appEle, document.getElementById('root'));
+            
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="Render" id="btnRender">
+    <div id="root"></div>
+</body>
+</html>
