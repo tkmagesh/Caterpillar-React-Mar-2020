@@ -19,6 +19,7 @@
                 const { productNames, newProductName } = this.state;
                 productNames.push(newProductName);
                 this.setState({ productNames : productNames });
+                this.props.onListChange(productNames.length);
             }
 
             render = () => {
@@ -40,14 +41,29 @@
             }
         }
 
-        ReactDOM.render(
+        const ProductCount = ({ count }) => (
             <div>
-             <div>
                 <span>Products Count : </span>
-                <span>[count]</span>
+                <span>{count}</span>
             </div>
-            <Products/>
-            </div>
+        )
+        
+        class ProductsApp extends React.Component{
+            state = { count : 0 };
+            onProductsListChange = (count) => {
+                this.setState({count : count})
+            }
+            render = () => {
+                return (
+                    <div>
+                        <ProductCount count={this.state.count} />
+                        <Products onListChange={this.onProductsListChange}/>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <ProductsApp />
             , document.getElementById('root'));
     </script>
 </head>
