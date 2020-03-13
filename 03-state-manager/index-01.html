@@ -10,7 +10,9 @@
     <script src="react-dom.development.js"></script>
     <script src="babel.min.js"></script>
     <script type="text/babel">
-    
+        /* 
+        1. Basic implementation
+        */
         function spinnerReducer(currentState = 0, action){
             if (action.type === 'UP')
                 return ++currentState;
