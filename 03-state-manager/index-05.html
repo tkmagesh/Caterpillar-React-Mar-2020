@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spinner - State Manager</title>
+    <script src="state-manager.js"></script>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        /* 
+        1. Basic implementation
+        2. Remove the dependency on the store in the component
+        3. Introducing the "action creators"
+        4. Passing the action creator methods as props to the component
+        5. Introducing "action dispatchers" (so the component need not have any dependency on 'dispatch')
+        */
+
+        function spinnerReducer(currentState = 0, action){
+            if (action.type === 'UP')
+                return ++currentState;
+            if (action.type === 'DOWN')
+                return --currentState;
+            return currentState;
+        }
+
+        var store = StateManager.createStore(spinnerReducer)
+
+        class Spinner extends React.Component{
+            onUpClick = () => {
+                this.props.up();
+            }
+            onDownClick = () => {
+                this.props.down();
+            }
+            render = () => {
+                const { value } = this.props;
+                return(
+                    <div>
+                        <h1>Spinner</h1>
+                        <hr/>
+                        <input type="button" value="DOWN" onClick={this.onDownClick} />
+                        <span> {value} </span>
+                        <input type="button" value="UP" onClick={this.onUpClick} />
+                    </div>
+                )
+            }
+        }
+
+        var spinnerActionCreators = {
+            up(){
+                const up_action = { type : 'UP' };
+                return up_action;
+            },
+            down(){
+                const down_action = { type : 'DOWN' };
+                return down_action;
+            }
+        }
+
+        function bindActionCreators(spinnerActionCreators, dispatch){
+            var spinnerActionDispatchers = {
+                up(){
+                    const action = spinnerActionCreators.up();
+                    dispatch(action);
+                },
+                down(){
+                    const action = spinnerActionCreators.down();
+                    dispatch(action);
+                }
+            };
+            return spinnerActionDispatchers;
+        }
+
+        var spinnerActionDispatchers = bindActionCreators(spinnerActionCreators, store.dispatch);
+
+        function renderSpinner(){
+            const value = store.getState();
+            ReactDOM.render(
+                <Spinner value={value} {...spinnerActionDispatchers} />
+                , document.getElementById('root'));
+        }
+        renderSpinner();
+        store.subscribe(renderSpinner);
+    </script>
+</head>
+<body>
+   <div id="root">
+
+   </div>
+</body>
+</html>
