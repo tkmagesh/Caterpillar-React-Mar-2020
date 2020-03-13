@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Component Intro</title>
+    <style>
+        .highlight {
+            color : blue;
+            font-size: 18pt;
+        }
+    </style>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script type="text/babel">
+        /* Component => encapsulation of Presentation + UI Behavior + UI State */
+        class Greeter extends React.Component{
+            
+            state = { 
+                greetMsg : '[Default greet message]',
+                userName : ''
+            };
+
+            onGreetClick = () => {
+                this.setState({greetMsg : `Hi ${this.state.userName}, ${this.props.template}`});
+            }
+
+            onUserNameChange = (evt) => {
+                this.setState({ userName : evt.target.value });
+            }
+            
+            render = () => {
+                return (
+                    <div>
+                        <h1>Greeter</h1>
+                        <hr/>
+                        <label htmlFor="">User Name :</label>
+                        <input type="text" onChange={this.onUserNameChange} />
+                        <input type="button" value="Greet" onClick={ this.onGreetClick }/>
+                        <div className="highlight">{this.state.greetMsg}</div>
+                    </div>
+                )
+            }
+        }
+        /* ReactDOM.render(React.createElement(Greeter, {template : 'Have a good day'})
+            , document.getElementById('root')); */
+        ReactDOM.render(
+            <div>
+                <Greeter template="Have a good day!"/>
+                <Greeter template="Have a nice day!"/>
+            </div>
+        , document.getElementById('root'));
+    </script>
+</head>
+<body>
+    <div id="root">
+        
+    </div>
+</body>
+</html>
