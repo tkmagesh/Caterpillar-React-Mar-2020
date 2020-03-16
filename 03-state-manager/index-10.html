@@ -40,8 +40,8 @@
     <!-- 
         Use Cases:
         (done) 1. Add Bugs
-        2. List the bugs
-        3. Toggle the 'closed' status of any bug
+        (done) 2. List the bugs
+        (done) 3. Toggle the 'closed' status of any bug
         4. Remove a bug
         5. Remove 'closed' bugs
         6. Display Stats ( # of closed bugs / total # of bugs )
@@ -62,13 +62,30 @@
                 const newState = [...currentState, action.payload ];
                 return newState;
             }
+            if (action.type === 'REPLACE_BUG'){
+                const bugToReplace = action.payload;
+                const newState = currentState.map(bug => bug.id === bugToReplace.id ? bugToReplace : bug);
+                return newState;
+            }
             return currentState;
         }
 
+        let currentBugId = 0;
+
         const bugActionCreators = {
             addNew(newBugName){
-                const newBug = { name : newBugName, isClosed : false, createdAt : new Date() };
+                const newBug = { 
+                    id : ++currentBugId, 
+                    name : newBugName, 
+                    isClosed : false, 
+                    createdAt : new Date() 
+                };
                 const action = { type : 'ADD_NEW_BUG', payload : newBug};
+                return action;
+            },
+            toggle(bugToToggle){
+                const toggledBug = { ...bugToToggle, isClosed : !bugToToggle.isClosed };
+                const action = { type : 'REPLACE_BUG', payload : toggledBug };
                 return action;
             }
         }
@@ -81,7 +98,22 @@
                 this.props.addNew(this.state.newBugName);
             }
             render= () => {
-                const { bugs } = this.props;
+                const { bugs, toggle } = this.props,
+                    bugItems = bugs.map(bug => (
+                        <li key={bug.id}>
+                            { bug.isClosed ? 
+                                (<span className="bugname closed" onClick={() => toggle(bug)}>
+                                    {bug.name}
+                                </span>)
+                                :
+                                (<span className="bugname" onClick={() => toggle(bug)}>
+                                    {bug.name}
+                                </span>)
+                            }
+                            <div className="datetime">{bug.createdAt.toString()}</div>
+                            <input type="button" value="Remove"/>
+                        </li>
+                    ));
                 return(
                     <React.Fragment>
                         <section className="stats">
@@ -105,16 +137,7 @@
                         </section>
                         <section className="list">
                             <ol>
-                                <li>
-                                    <span className="bugname">[This is bug - 1]</span>
-                                    <div className="datetime">[created At]</div>
-                                    <input type="button" value="Remove"/>
-                                </li>
-                                <li>
-                                    <span className="bugname closed">[This is bug - 2]</span>
-                                    <div className="datetime">[created At]</div>
-                                    <input type="button" value="Remove"/>
-                                </li>
+                               {bugItems}
                             </ol>
                             <input type="button" value="Remove Closed" />
                         </section>
