@@ -1,0 +1,38 @@
+{
+  "bugs": [
+    {
+      "id": 1,
+      "name": "Bug - 1",
+      "isClosed": false,
+      "createdAt": "2020-03-10T23:05:06.003Z"
+    },
+    {
+      "id": 2,
+      "name": "Bug - 2",
+      "isClosed": true,
+      "createdAt": "2020-03-10T23:05:08.280Z"
+    },
+    {
+      "id": 3,
+      "name": "Bug - 3",
+      "isClosed": true,
+      "createdAt": "2020-03-10T23:05:06.003Z"
+    },
+    {
+      "id": 4,
+      "name": "Bug - 4",
+      "isClosed": false,
+      "createdAt": "2020-03-11T02:25:40.650Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Payroll Star"
+    },
+    {
+      "id": 2,
+      "name": "Accounting Master"
+    }
+  ]
+}
