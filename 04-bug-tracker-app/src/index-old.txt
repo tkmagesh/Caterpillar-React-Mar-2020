@@ -1,0 +1,44 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { bindActionCreators } from 'redux';
+
+import './index.css';
+import * as bugActionCreators from './bug-tracker/actions';
+import { spinnerActionCreators } from './spinner/actions';
+
+import BugTracker from './bug-tracker';
+import Spinner from './spinner';
+
+import appStore from './store';
+
+const bugActionDispatchers = bindActionCreators(bugActionCreators, appStore.dispatch);
+const spinnerActionDispatchers = bindActionCreators(spinnerActionCreators, appStore.dispatch);
+
+function renderApp() {
+    const storeState = appStore.getState(),
+        bugs = storeState.bugsData,
+        value = storeState.spinnerData;
+
+    ReactDOM.render(
+        <div>
+            <BugTracker bugs={bugs} {...bugActionDispatchers} />
+            <Spinner value={value} {...spinnerActionDispatchers} />
+        </div>,
+        document.getElementById('root'));
+}
+
+renderApp();
+appStore.subscribe(renderApp);
+
+//import * as serviceWorker from './serviceWorker';
+//ReactDOM.render(<App />, document.getElementById('root'));
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+//serviceWorker.unregister();
+
+//ES6-Modules example
+//import * as calc from './calculator';
+//import { add } from './calculator';
+//import calc from './calculator';
