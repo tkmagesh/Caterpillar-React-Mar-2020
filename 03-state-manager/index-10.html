@@ -43,7 +43,7 @@
         (done) 2. List the bugs
         (done) 3. Toggle the 'closed' status of any bug
         (done) 4. Remove a bug
-        5. Remove 'closed' bugs
+        (done) 5. Remove 'closed' bugs
         6. Display Stats ( # of closed bugs / total # of bugs )
         7. Sort the bugs (Assignment)
         8. Persist the bugs in the server
@@ -71,6 +71,11 @@
                 const newState = currentState.filter(bug => bug.id !== action.payload.id);
                 return newState;
             }
+            if (action.type === 'REMOVE_BUGS'){
+                const bugsToRemove = action.payload;
+                const newState = currentState.filter(bug => !bugsToRemove.find(bugToRemove => bugToRemove.id === bug.id));
+                return newState;
+            }
 
             return currentState;
         }
@@ -96,6 +101,11 @@
             remove(bugToRemove){
                 const action = { type : 'REMOVE_BUG', payload : bugToRemove};
                 return action;
+            },
+            removeClosed(bugs){
+                const bugsToRemove = bugs.filter(bug => bug.isClosed);
+                const action = { type : 'REMOVE_BUGS', payload : bugsToRemove };
+                return action;
             }
         }
         class BugTracker extends React.Component{
@@ -107,7 +117,7 @@
                 this.props.addNew(this.state.newBugName);
             }
             render= () => {
-                const { bugs, toggle, remove } = this.props,
+                const { bugs, toggle, remove, removeClosed } = this.props,
                     bugItems = bugs.map(bug => (
                         <li key={bug.id}>
                             { bug.isClosed ? 
@@ -148,7 +158,7 @@
                             <ol>
                                {bugItems}
                             </ol>
-                            <input type="button" value="Remove Closed" />
+                            <input type="button" value="Remove Closed" onClick={ () => removeClosed(bugs)} />
                         </section>
                     </React.Fragment>
                 )
