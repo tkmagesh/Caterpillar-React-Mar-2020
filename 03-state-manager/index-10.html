@@ -188,7 +188,7 @@
                         <BugStats bugs={bugs} />
                         <BugSort />
                         <BugEdit addNew={addNew} />
-                        <BugList { ...{bugs, toggle, remove, removeClosed}} />
+                        <BugList {...{ toggle, remove, removeClosed, bugs }} />
                     </React.Fragment>
                 )
             }

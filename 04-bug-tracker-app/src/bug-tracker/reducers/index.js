@@ -1,0 +1,1 @@
+export { bugsReducer } from './bugsReducer';
