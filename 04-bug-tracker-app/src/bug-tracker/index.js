@@ -7,9 +7,12 @@ import * as bugActionCreators from './actions';
 
 class BugTracker extends Component {
     render = () => {
-        const { bugs, toggle, remove, removeClosed, addNew } = this.props;
+        const { bugs, toggle, remove, removeClosed, addNew, toggleFilter, bugsFilter } = this.props;
         return (
             <Fragment>
+                <label>Apply Filter : </label>
+                <input type="checkbox" onChange={toggleFilter} checked={bugsFilter} />
+                <br/>
                 <BugStats bugs={bugs} />
                 <BugSort />
                 <BugEdit addNew={addNew} />
@@ -20,8 +23,8 @@ class BugTracker extends Component {
 }
 
 function mapStateToProps(storeState){
-    const bugs = storeState.bugsData;
-    return { bugs : bugs };
+    const bugs = storeState.bugsFilter ? storeState.bugsData.filter(bug => bug.id % 2 === storeState.spinnerData % 2) : storeState.bugsData ;
+    return { bugs : bugs, bugsFilter : storeState.bugsFilter };
 }
 
 function mapDispatchToProps(dispatch){
