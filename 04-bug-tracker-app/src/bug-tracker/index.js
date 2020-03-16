@@ -7,9 +7,12 @@ import * as bugActionCreators from './actions';
 
 class BugTracker extends Component {
     render = () => {
-        const { bugs, toggle, remove, removeClosed, addNew, toggleFilter, bugsFilter } = this.props;
+        const { bugs, toggle, remove, removeClosed, addNew, toggleFilter, bugsFilter, load } = this.props;
         return (
             <Fragment>
+                <div>
+                    <input type="button" value="LOAD BUGS" onClick={load} />
+                </div>
                 <label>Apply Filter : </label>
                 <input type="checkbox" onChange={toggleFilter} checked={bugsFilter} />
                 <br/>

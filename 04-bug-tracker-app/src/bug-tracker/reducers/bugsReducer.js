@@ -18,6 +18,9 @@ export function bugsReducer(currentState = [], action) {
         const newState = currentState.filter(bug => !bugsToRemove.find(bugToRemove => bugToRemove.id === bug.id));
         return newState;
     }
+    if (action.type === 'LOAD_BUGS'){
+        return action.payload;
+    }
 
     return currentState;
 }
