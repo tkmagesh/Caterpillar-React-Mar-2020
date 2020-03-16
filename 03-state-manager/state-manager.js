@@ -18,7 +18,10 @@ var StateManager = (function(){
 
     function dispatch(action){
         var newState = _reducer(_currentState, action);
-        if (newState === _currentState) return;
+        if (newState === _currentState) {
+            console.log('no state change');
+            return;
+        }
         _currentState = newState;
         emitChange();
     }
