@@ -42,7 +42,7 @@
         (done) 1. Add Bugs
         (done) 2. List the bugs
         (done) 3. Toggle the 'closed' status of any bug
-        4. Remove a bug
+        (done) 4. Remove a bug
         5. Remove 'closed' bugs
         6. Display Stats ( # of closed bugs / total # of bugs )
         7. Sort the bugs (Assignment)
@@ -67,6 +67,11 @@
                 const newState = currentState.map(bug => bug.id === bugToReplace.id ? bugToReplace : bug);
                 return newState;
             }
+            if (action.type === 'REMOVE_BUG'){
+                const newState = currentState.filter(bug => bug.id !== action.payload.id);
+                return newState;
+            }
+
             return currentState;
         }
 
@@ -87,6 +92,10 @@
                 const toggledBug = { ...bugToToggle, isClosed : !bugToToggle.isClosed };
                 const action = { type : 'REPLACE_BUG', payload : toggledBug };
                 return action;
+            },
+            remove(bugToRemove){
+                const action = { type : 'REMOVE_BUG', payload : bugToRemove};
+                return action;
             }
         }
         class BugTracker extends React.Component{
@@ -98,7 +107,7 @@
                 this.props.addNew(this.state.newBugName);
             }
             render= () => {
-                const { bugs, toggle } = this.props,
+                const { bugs, toggle, remove } = this.props,
                     bugItems = bugs.map(bug => (
                         <li key={bug.id}>
                             { bug.isClosed ? 
@@ -111,7 +120,7 @@
                                 </span>)
                             }
                             <div className="datetime">{bug.createdAt.toString()}</div>
-                            <input type="button" value="Remove"/>
+                            <input type="button" value="Remove" onClick={ () => remove(bug) }/>
                         </li>
                     ));
                 return(
